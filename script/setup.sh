@@ -3,9 +3,9 @@
 clear
 
 echo "-- Get TPL files"
-curl -LO https://github.com/msadig/django-starter/archive/master.zip > master.zip
-unzip master.zip
-rm master.zip
+curl -LO https://github.com/msadig/django-starter/archive/master.tar.gz > master.tar.gz
+gzip -dc master.tar.gz | tar xvf -
+rm master.tar.gz
 cd ./django-starter-master
 
 
