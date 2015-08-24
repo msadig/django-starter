@@ -1,0 +1,18 @@
+# Server
+APP_SERVER=#{server}
+APP_USER=#{appuser}
+APP_USER_GROUP=webapps
+APP_NAME=#{appname}
+APP_PATH=#{apppath}
+DJANGO_PATH=$APP_PATH/$APP_NAME
+
+
+
+# Database
+APP_DB_USER=#{db_user}
+APP_DB_PASSWORD=#{db_password}
+APP_DB_NAME=#{db_name}
+
+# TPL
+#SETUP_TMP_PATH=#{tpl_path}
+SETUP_TMP_PATH=../tpl
