@@ -149,11 +149,21 @@ sudo service nginx restart
 
 
 
-echo "---"
-echo "---"
-echo "Now you'll be able to see the django-app!"
-echo "---"
-echo "---"
+echo "============================================="
+echo "| Now you'll be able to see the django-app! |"
+echo "============================================="
+
+
+echo "Create SSH key? (y/n)"
+read -e ssh_request
+if [ "$ssh_request" == n ] ; then
+exit
+else
+	echo "WARNING: Don't set passphrase, just press <Enter>"
+	ssh-keygen -t rsa -C $SSH_MAIL
+	echo "Copy following codes and paste it Git panel for future references."
+	cat < ~/.ssh/id_rsa.pub
+fi
 
 exit 0
 
