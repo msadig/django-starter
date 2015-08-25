@@ -23,7 +23,7 @@ You can to define Django app parameters manually (`nano ./django-master/config.t
 After defining the parameters of future Djangp app, open the starter folder and run app.sh for the creating Django app
 ```
 $ cd ./django-starter
-$ bash scripts/app.sh
+$ bash script/app.sh
 ```
 
 

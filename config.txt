@@ -11,8 +11,4 @@ DJANGO_PATH=$APP_PATH/$APP_NAME
 # Database
 APP_DB_USER=db_user
 APP_DB_PASSWORD=complicatedAndStrongPassword
-APP_DB_NAME=db_it
-
-# TPL
-SETUP_PATH=/root
-SETUP_TMP_PATH=$SETUP_PATH/tpl
+APP_DB_NAME=db_name

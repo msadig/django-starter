@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. ../config.txt
+script_dir="$(dirname "$0")"
+. $script_dir/../config.txt
 
 # Uninstalling the Django application
 

@@ -13,7 +13,8 @@
 # NOTE: Tested on Ubuntu 14.04
 
 # GET APP VARIABLES FROM CONFIG
-. ../config.txt
+script_dir="$(dirname "$0")"
+. $script_dir/../config.txt
 
 
 
@@ -119,9 +120,9 @@ EOF
 # ------------------------------------------------------------------------------
 # Set up gunicorn_start file
 echo "----- Gunicorn: Set up gunicorn_start file..."
-sed 's|#{APP_USER}|'$APP_USER'|g' $SETUP_TMP_PATH/gunicorn_start.sh > $SETUP_TMP_PATH/gunicorn_start.bak
-sed -i -e  's|#{APP_NAME}|'$APP_NAME'|g' -e 's|#{APP_PATH}|'$APP_PATH'|g' -e 's|#{APP_USER_GROUP}|'$APP_USER_GROUP'|g' $SETUP_TMP_PATH/gunicorn_start.bak
-sudo mv -i $SETUP_TMP_PATH/gunicorn_start.bak  $APP_PATH/bin/gunicorn_start
+sed 's|#{APP_USER}|'$APP_USER'|g' $script_dir/../tpl/gunicorn_start.sh > $script_dir/../tpl/gunicorn_start.bak
+sed -i -e  's|#{APP_NAME}|'$APP_NAME'|g' -e 's|#{APP_PATH}|'$APP_PATH'|g' -e 's|#{APP_USER_GROUP}|'$APP_USER_GROUP'|g' $script_dir/../tpl/gunicorn_start.bak
+sudo mv -i $script_dir/../tpl/gunicorn_start.bak  $APP_PATH/bin/gunicorn_start
 sudo chmod u+x $APP_PATH/bin/gunicorn_start
 sudo chown -R $APP_USER:$APP_USER_GROUP $APP_PATH/bin/gunicorn_start
 
@@ -129,9 +130,9 @@ sudo chown -R $APP_USER:$APP_USER_GROUP $APP_PATH/bin/gunicorn_start
 
 # Setup of Supervisor
 echo "----- Supervisor: Starting and monitoring..."
-sed 's|#{APP_USER}|'$APP_USER'|g' $SETUP_TMP_PATH/supervisor.conf > $SETUP_TMP_PATH/supervisor.conf.bak
-sed -i -e  's|#{APP_NAME}|'$APP_NAME'|g' -e 's|#{APP_PATH}|'$APP_PATH'|g' $SETUP_TMP_PATH/supervisor.conf.bak
-sudo mv -i $SETUP_TMP_PATH/supervisor.conf.bak  /etc/supervisor/conf.d/$APP_NAME.conf
+sed 's|#{APP_USER}|'$APP_USER'|g' $script_dir/../tpl/supervisor.conf > $script_dir/../tpl/supervisor.conf.bak
+sed -i -e  's|#{APP_NAME}|'$APP_NAME'|g' -e 's|#{APP_PATH}|'$APP_PATH'|g' $script_dir/../tpl/supervisor.conf.bak
+sudo mv -i $script_dir/../tpl/supervisor.conf.bak  /etc/supervisor/conf.d/$APP_NAME.conf
 # operate
 sudo supervisorctl reread
 sudo supervisorctl update
@@ -140,9 +141,9 @@ sudo supervisorctl restart $APP_NAME
 
 # Setup of Nginx
 echo "----- Nginx: Create an Nginx virtual server configuration..."
-sed 's|#{APP_NAME}|'$APP_NAME'|g' $SETUP_TMP_PATH/nginx.server > $SETUP_TMP_PATH/nginx.server.bak
-sed -i -e  's|#{APP_SERVER}|'$APP_SERVER'|g' -e 's|#{APP_PATH}|'$APP_PATH'|g' $SETUP_TMP_PATH/nginx.server.bak
-sudo mv -i $SETUP_TMP_PATH/nginx.server.bak  /etc/nginx/sites-available/$APP_NAME
+sed 's|#{APP_NAME}|'$APP_NAME'|g' $script_dir/../tpl/nginx.server > $script_dir/../tpl/nginx.server.bak
+sed -i -e  's|#{APP_SERVER}|'$APP_SERVER'|g' -e 's|#{APP_PATH}|'$APP_PATH'|g' $script_dir/../tpl/nginx.server.bak
+sudo mv -i $script_dir/../tpl/nginx.server.bak  /etc/nginx/sites-available/$APP_NAME
 sudo ln -s /etc/nginx/sites-available/$APP_NAME /etc/nginx/sites-enabled/$APP_NAME
 sudo service nginx restart 
 
