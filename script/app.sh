@@ -34,7 +34,8 @@ sudo chmod -R g+w $APP_PATH
 sudo usermod -a -G users `whoami`
 
 
-
+# Any subsequent(*) commands which fail will cause the shell script to exit immediately
+set -e
 
 
 
@@ -53,12 +54,6 @@ createdb --owner $APP_DB_USER $APP_DB_NAME
 
 # -------[script ends]-------
 EOF
-
-
-
-
-
-
 
 
 # ------------------------------------------------------------------------------
@@ -156,16 +151,37 @@ echo "| Now you'll be able to see the django-app! |"
 echo "============================================="
 
 
-echo "Would you like to exchange ssh keys with the GIT server? (y/n)"
+# ------------------------------------------------------------------------------
+# Create ssh key
+echo "Would you like to create SSH key? (y/n)"
 read -e ssh_keygen
 if [ "$ssh_keygen" == y ] ; then
+
+	read -p "Change the URI (URL) for a remote Git repository? (y/n): " change_repo_url
+	if [ "$change_repo_url" == y ] ; then
+		read -p "Write new URL for repository: " new_git_repo
+	fi
+
+
+sudo -u $APP_USER bash << EOF
+# ---- [virtual env] ----
+
 whoami
+cd $APP_PATH
+source bin/activate
+pwd
 
-echo -e  'y\n' | ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER" -N "" -f ~/.ssh/id_rsa
-cp ~/.ssh/id_rsa* $APP_PATH/.ssh/id_rsa*
-cat ~/.ssh/id_rsa.pub
+echo -e  'y\n' | ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER" -N "" -f $APP_PATH/.ssh/id_rsa
+cat $APP_PATH/.ssh/id_rsa.pub
 
-# --- [/virtual env] ----
+if [ "$change_repo_url" == y ] ; then
+git remote set-url origin $new_git_repo
 fi
+# --- [/virtual env] ----
+EOF
+
+fi
+
+
 
 exit 0
