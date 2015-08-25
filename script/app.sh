@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-# This script sets up: 
-#  - Python2.7 & Python3.4
-#  - Django
-#  - Git
-#  - Gunicorn
-#  - Supervisior
-#  - Nginx
-#  - PostgreSQL
-# It also creates a database for the project
-# and a user that can access it.
-# NOTE: Tested on Ubuntu 14.04
-
 # GET APP VARIABLES FROM CONFIG
 script_dir="$(dirname "$0")"
 . $script_dir/../config.txt
@@ -170,39 +158,14 @@ echo "============================================="
 
 echo "Would you like to exchange ssh keys with the GIT server? (y/n)"
 read -e ssh_keygen
-if [ "$ssh_keygen" == n ] ; then
-exit
-else
-sudo -u $APP_USER bash << EOF
-# ---- [virtual env] ----
-
+if [ "$ssh_keygen" == y ] ; then
 whoami
-cd $APP_PATH
-source bin/activate
-pwd
 
-echo "WARNING: Don't set passphrase, just press <Enter>"
-echo -e  'y\n' | ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER" -N "" -f $APP_PATH/.ssh/id_rsa
-cat $APP_PATH/.ssh/id_rsa.pub
+echo -e  'y\n' | ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER" -N "" -f ~/.ssh/id_rsa
+cp ~/.ssh/id_rsa* $APP_PATH/.ssh/id_rsa*
+cat ~/.ssh/id_rsa.pub
 
 # --- [/virtual env] ----
-EOF
 fi
 
 exit 0
-
-
-
-# CREDITS:
-#  - http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
-#  - https://gist.github.com/damienstanton/f63c8aed8f4a432cfcf2
-#  - https://gist.github.com/sspross/330b5b1f08ada7b70c24
-#  - https://pypi.python.org/pypi/setuptools
-#  - http://stackoverflow.com/a/17517654/968751
-#  - https://pip.pypa.io/en/latest/installing.html
-#  - https://confluence.atlassian.com/pages/viewpage.action?pageId=270827678
-#  - http://stackoverflow.com/a/22947716/968751
-#  - http://superuser.com/a/468163
-#  - http://stackoverflow.com/a/8998789/968751
-#  - http://stackoverflow.com/a/24696790/968751
-#  - http://stackoverflow.com/a/11603385/968751
