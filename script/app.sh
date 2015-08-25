@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# This script is calling directly from the Vagrantfile and sets up
-# Ubuntu 14.04 server with: 
+# This script sets up: 
 #  - Python2.7 & Python3.4
 #  - Django
 #  - Git
@@ -11,9 +10,10 @@
 #  - PostgreSQL
 # It also creates a database for the project
 # and a user that can access it.
+# NOTE: Tested on Ubuntu 14.04
 
 # GET APP VARIABLES FROM CONFIG
-. #{CONFIGPATH}
+. ../config.txt
 
 
 

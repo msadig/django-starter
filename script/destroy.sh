@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. #{CONFIGPATH}
+. ../config.txt
 
 # Uninstalling the Django application
 

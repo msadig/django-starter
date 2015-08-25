@@ -1,6 +1,34 @@
 # django-starter
 Automates the creation of a simple Django app which uses PostgreSQL, Gunicorn, Supervisor, Nginx, etc.
 
+##This script sets up: 
+- Python2.7 & Python3.4
+- Django
+- Git
+- Gunicorn
+- Supervisior
+- Nginx
+- PostgreSQL (also creates a database for the project and a user that can access it)
+
+NOTE: Tested only on Ubuntu 14.04
+
+### Usage
+Run:
+```
+$ curl -LO https://raw.githubusercontent.com/msadig/django-starter/master/script/setup.sh && bash setup.sh
+```
+You can to define Django app parameters manually (./django-master/config.txt) or create config file on the fly.
+
+
+After defining the parameters of future Djangp app, open the starter folder and run app.sh for the creating Django app
+```
+$ cd ./django-starter
+$ bash scripts/app.sh
+```
+
+
+
+
 ### Credits:
 - http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
 - https://gist.github.com/damienstanton/f63c8aed8f4a432cfcf2
@@ -14,17 +42,3 @@ Automates the creation of a simple Django app which uses PostgreSQL, Gunicorn, S
 - http://stackoverflow.com/a/8998789/968751
 - http://stackoverflow.com/a/24696790/968751
 - http://stackoverflow.com/a/11603385/968751
-
-### Usage
-Run:
-```
-$ curl -LO https://raw.githubusercontent.com/msadig/django-starter/master/script/setup.sh && bash setup.sh
-```
-
-Then open the scripts folder and run app.sh for creating django app
-```
-$ cd ./django-starter-master/scripts
-$ bash app.sh
-```
-
-You can change configuration of the Django app from config.txt
