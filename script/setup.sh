@@ -6,14 +6,13 @@ echo "-- Get TPL files"
 curl -LO https://github.com/msadig/django-starter/archive/master.tar.gz > master.tar.gz
 gzip -dc master.tar.gz | tar xvf -
 rm master.tar.gz
-cd ./django-starter-master
+mv ./django-starter-master ./django-starter && cd ./django-starter
 
 
 echo "Create configuration? (y/n)"
 read -e run
 if [ "$run" == n ] ; then
-	echo "Path of the existing config file: "
-	read -e confpath
+	confpath=../config.txt
 	sed -i.bak -e 's|#{CONFIGPATH}|'$confpath'|g' script/app.sh
 	sed -i.bak -e 's|#{CONFIGPATH}|'$confpath'|g' script/destroy.sh
 	rm -rfv script/*.bak
