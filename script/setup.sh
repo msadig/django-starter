@@ -12,7 +12,7 @@ mv ./django-starter-master ./django-starter && cd ./django-starter
 echo "Create configuration file? (y/n)"
 read -e run
 if [ "$run" == n ] ; then
-	echo "Process complated, now you can define your app parameters from ./django-starter/config.txt and then run 'bash ./django-starter/app.sh'"
+	echo "Process complated, now you can define your app parameters from ./django-starter/config.txt and then run 'bash ./django-starter/script/app.sh'"
 exit
 else
 	rm -rfv config.txt
@@ -30,13 +30,11 @@ else
 	read -e db_password
 	echo "=> Database Name: "
 	read -e db_name
-	echo "=> Your E-mail: "
-	read -e email
 
 	sed 's|#{server}|'$server'|g' tpl/conf.bak > config.txt
-	sed -i.bak -e 's|#{appuser}|'$appuser'|g' -e 's|#{appname}|'$appname'|g' -e 's|#{apppath}|'$apppath'|g' -e 's|#{db_user}|'$db_user'|g' -e 's|#{db_password}|'$db_password'|g' -e 's|#{db_name}|'$db_name'|g' -e 's|#{email}|'$email'|g' config.txt
+	sed -i.bak -e 's|#{appuser}|'$appuser'|g' -e 's|#{appname}|'$appname'|g' -e 's|#{apppath}|'$apppath'|g' -e 's|#{db_user}|'$db_user'|g' -e 's|#{db_password}|'$db_password'|g' -e 's|#{db_name}|'$db_name'|g' config.txt
 	rm config.txt.bak
 
-	echo "Process complated, now run the 'bash ./django-starter/app.sh' command for the creating Django app with the paremeters you've defined."
+	echo "Process complated, now run the 'bash ./django-starter/script/app.sh' command for the creating Django app with the paremeters you've defined."
 fi
 exit 0

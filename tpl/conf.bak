@@ -12,6 +12,3 @@ DJANGO_PATH=$APP_PATH/$APP_NAME
 APP_DB_USER=#{db_user}
 APP_DB_PASSWORD=#{db_password}
 APP_DB_NAME=#{db_name}
-
-# SSH key
-SSH_MAIL="#{email}"
