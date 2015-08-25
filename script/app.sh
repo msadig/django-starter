@@ -74,8 +74,14 @@ EOF
 
 
 # ------------------------------------------------------------------------------
+# If wants create existing project
+read -p "Do you wish to create existing project? (y/n): " prj_exists
+if [ "$prj_exists" == y ] ; then
+read -p "Please prvide URL for the GIT repository: " git_repo
+fi
+
+# ------------------------------------------------------------------------------
 # RUN SCRIPTS AS APP USER
-# exec sudo -u $APP_USER /bin/sh - << EOF
 sudo -u $APP_USER bash << EOF
 # -------[script begins]-------
 echo "----- LOGINED AS ----"
@@ -85,6 +91,12 @@ whoami
 echo "----- Provision: Create Virtual Environment..."
 cd $APP_PATH
 pwd
+
+# if project already exists
+if [ "$prj_exists" == y ] ; then
+git clone $git_repo .
+fi
+
 pyvenv-3.4 --without-pip . # because of Ubuntu 14.04 PIP3 issue we create venv without pip
 source bin/activate
 python --version
@@ -100,8 +112,10 @@ pip install gunicorn
 pip install --no-cache-dir setproctitle
 pip install django
 
-# create django app
+# create django app if dont exists
+if [ "$prj_exists" != y ] ; then
 django-admin startproject $APP_NAME
+fi
 
 # Create log folder for logs
 mkdir -p $APP_PATH/logs/
@@ -154,7 +168,7 @@ echo "| Now you'll be able to see the django-app! |"
 echo "============================================="
 
 
-echo "Create SSH key? (y/n)"
+echo "Would you like to exchange ssh keys with the GIT server? (y/n)"
 read -e ssh_keygen
 if [ "$ssh_keygen" == n ] ; then
 exit
