@@ -155,8 +155,8 @@ echo "============================================="
 
 
 echo "Create SSH key? (y/n)"
-read -e ssh_request
-if [ "$ssh_request" == n ] ; then
+read -e ssh_keygen
+if [ "$ssh_keygen" == n ] ; then
 exit
 else
 sudo -u $APP_USER bash << EOF
@@ -165,10 +165,11 @@ sudo -u $APP_USER bash << EOF
 whoami
 cd $APP_PATH
 source bin/activate
+pwd
 
 echo "WARNING: Don't set passphrase, just press <Enter>"
-ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER"
-cat < ~/.ssh/id_rsa.pub
+echo -e  'y\n' | ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER" -N "" -f $APP_PATH/.ssh/id_rsa
+cat $APP_PATH/.ssh/id_rsa.pub
 
 # --- [/virtual env] ----
 EOF
