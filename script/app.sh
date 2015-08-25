@@ -159,20 +159,20 @@ read -e ssh_request
 if [ "$ssh_request" == n ] ; then
 exit
 else
-	sudo -u $APP_USER bash << EOF
-	# ---- [virtual env] ----
-	whoami
-	cd $APP_PATH
-	source bin/activate
-	
-	echo "WARNING: Don't set passphrase, just press <Enter>"
-	ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER"
-	echo "Copy following codes and paste it Git panel for future references."
-	cat < ~/.ssh/id_rsa.pub
+sudo -u $APP_USER bash << EOF
+# ---- [virtual env] ----
 
+whoami
+cd $APP_PATH
+source bin/activate
 
-	# --- [/virtual env] ----
-	EOF
+echo "WARNING: Don't set passphrase, just press <Enter>"
+ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER"
+echo "Copy following codes and paste it Git panel for future references."
+cat < ~/.ssh/id_rsa.pub
+
+# --- [/virtual env] ----
+EOF
 fi
 
 exit 0
