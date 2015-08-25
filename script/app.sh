@@ -168,7 +168,6 @@ source bin/activate
 
 echo "WARNING: Don't set passphrase, just press <Enter>"
 ssh-keygen -t rsa -C "$APP_NAME@$APP_SERVER"
-echo "Copy following codes and paste it Git panel for future references."
 cat < ~/.ssh/id_rsa.pub
 
 # --- [/virtual env] ----
