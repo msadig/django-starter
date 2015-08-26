@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Any subsequent(*) commands which fail will cause the shell script to exit immediately
+set -e
+
 # GET APP VARIABLES FROM CONFIG
 script_dir="$(dirname "$0")"
 . $script_dir/../config.txt
@@ -19,10 +22,30 @@ echo "----- Provision: Installing SUDO Requirements..."
 sudo aptitude install -y postgresql postgresql-contrib libpq-dev python-dev supervisor nginx git python3-pip
 
 
-# Create user group and assign home directory
-echo "----- Provision: Create APP User and assign home directory..."
-sudo groupadd --system $APP_USER_GROUP
-sudo useradd --system --gid $APP_USER_GROUP --shell /bin/bash --home $APP_PATH $APP_USER
+# Create user, group and assign home directory IF not exists
+if ! id -u $APP_USER > /dev/null 2>&1; then
+	echo "----- Provision: Create APP User and assign home directory..."
+	if ! grep -q $APP_USER_GROUP /etc/group;
+	then
+	   sudo groupadd --system $APP_USER_GROUP
+	fi
+	randompw=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1) #random password
+	sudo useradd --system --gid $APP_USER_GROUP --shell /bin/bash --home $APP_PATH $APP_USER
+	
+	# Assign the password to the user.
+	# Password is passed via stdin, *twice* (for confirmation).
+	sudo passwd $APP_USER <<< "$randompw"$'\n'"$randompw"
+	echo "=============================================================================="
+	echo "******************************************************************************"
+	echo " "
+	echo "User:" $APP_USER "has been created with the following password:" $randompw
+	echo " "
+	echo "******************************************************************************"
+	echo "=============================================================================="
+
+
+fi
+
 
 # Create apps user and assign app directory to him
 sudo mkdir -p $APP_PATH
@@ -33,9 +56,6 @@ sudo chown -R $APP_USER:users $APP_PATH
 sudo chmod -R g+w $APP_PATH
 sudo usermod -a -G users `whoami`
 
-
-# Any subsequent(*) commands which fail will cause the shell script to exit immediately
-set -e
 
 
 
