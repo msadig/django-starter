@@ -21,6 +21,13 @@ sudo aptitude -y upgrade
 echo "----- Provision: Installing SUDO Requirements..."
 sudo aptitude install -y postgresql postgresql-contrib libpq-dev python-dev supervisor nginx git python3-pip
 
+# Note: in the new version of the Ubuntu pyvenv not preinstalled
+if ! pyvenv_3="$(type -p pyvenv-3.4)" || [ -z "$pyvenv_3" ]; then
+  # install foobar here
+  sudo apt-get install python3.4-venv # http://askubuntu.com/a/528625, http://stackoverflow.com/a/7522866/968751
+fi
+
+
 
 # Create user, group and assign home directory IF not exists
 if ! id -u $APP_USER > /dev/null 2>&1; then
