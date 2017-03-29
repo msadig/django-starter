@@ -30,7 +30,7 @@ function usage {
     echo -e "\nCommands:"
 
     echo -e "\t setup \t\t\t - Setup and create config file"
-    echo -e "\t start \t\t\t - Start deploy django app to '$APP_PATH'"
+    echo -e "\t deploy \t\t - Start to deploy django app to '$APP_PATH'"
     echo -e "\t destroy \t\t - Destroy django app"
     # exit $ERROR_STATUS
 }
@@ -267,7 +267,7 @@ function create_ssh_key {
   read -e ssh_keygen
   if [ "$ssh_keygen" == y ] ; then
 
-  	read -p "Change the URI (URL) for a remote Git repository? (y/n): " change_repo_url
+  	read -p "Change the URI (SSH URL) for a remote Git repository? (y/n): " change_repo_url
   	if [ "$change_repo_url" == y ] ; then
   		read -p "Write new URL for repository: " new_git_repo
   	fi
