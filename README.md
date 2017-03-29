@@ -42,3 +42,4 @@ $ bash script/deploy.sh
 - http://stackoverflow.com/a/8998789/968751
 - http://stackoverflow.com/a/24696790/968751
 - http://stackoverflow.com/a/11603385/968751
+- http://askubuntu.com/a/682616 - new virtual envoirenment for paython3.4
