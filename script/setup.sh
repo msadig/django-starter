@@ -35,6 +35,6 @@ else
 	sed -i.bak -e 's|#{appuser}|'$appuser'|g' -e 's|#{appname}|'$appname'|g' -e 's|#{apppath}|'$apppath'|g' -e 's|#{db_user}|'$db_user'|g' -e 's|#{db_password}|'$db_password'|g' -e 's|#{db_name}|'$db_name'|g' config.txt
 	rm config.txt.bak
 
-	echo "Process complated, now run the 'bash ./django-starter/script/app.sh' command for the creating Django app with the paremeters you've defined."
+	echo "Process complated, now run the 'bash ./django-starter/script/deploy.sh' command for the creating Django app with the paremeters you've defined."
 fi
 exit 0
