@@ -1,7 +1,7 @@
 # django-starter
 Automates the creation of a simple Django app which uses PostgreSQL, Gunicorn, Supervisor, Nginx, etc.
 
-##This script sets up: 
+## This script sets up:
 - Python2.7 & Python3.4
 - Django
 - Git
@@ -20,10 +20,10 @@ $ curl -LO https://raw.githubusercontent.com/msadig/django-starter/master/script
 You can to define Django app parameters manually (`nano ./django-master/config.txt`) or create config file on the fly.
 
 
-After defining the parameters of future Djangp app, open the starter folder and run app.sh for the creating Django app
+After defining the parameters of future Django app, open the starter folder and run app.sh for the creating Django app
 ```
 $ cd ./django-starter
-$ bash script/app.sh
+$ bash script/deploy.sh
 ```
 
 
