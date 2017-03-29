@@ -32,7 +32,7 @@ function usage {
     echo -e "\t setup \t\t\t - Setup and create config file"
     echo -e "\t start \t\t\t - Start deploy django app to '$APP_PATH'"
     echo -e "\t destroy \t\t - Destroy django app"
-    exit 1
+    # exit $ERROR_STATUS
 }
 
 # ------------------------
@@ -366,36 +366,35 @@ ARG1=${@:$OPTIND+1:1}
 #CHECKING PARAMS VALUES
 case ${COMMAND} in
 
-    setup)
-      update_conf
-    ;;
+  setup)
+    update_conf
+  ;;
 
-    start | deploy)
-  		install_banner
-      update
-      install_requirements
-      install_venv
-      create_app_user
-      create_db
-      create_project
-      setup_gunicorn
-      setup_supervisor
-      setup_nginx
-      create_ssh_key
-  	;;
+  start | deploy)
+    install_banner
+    update
+    install_requirements
+    install_venv
+    create_app_user
+    create_db
+    create_project
+    setup_gunicorn
+    setup_supervisor
+    setup_nginx
+    create_ssh_key
+  ;;
 
-    destroy | remove )
-  		destroy_app
-  	;;
+  destroy | remove )
+    destroy_app
+  ;;
 
-    *)
-        if [[ $COMMAND != "" ]]; then
-            echo "Error: Unknown command: $COMMAND"
-            ERROR_STATUS=1
-        fi
-        usage
-    ;;
-
+  *)
+    usage
+  if [[ $COMMAND != "" ]]; then
+    echo "Error: Unknown command: $COMMAND"
+    ERROR_STATUS=1
+  fi
+  ;;
 esac
 
 exit $ERROR_STATUS
