@@ -12,7 +12,7 @@ mv ./django-starter-master ./django-starter && cd ./django-starter
 echo "Create configuration file? (y/n)"
 read -e run
 if [ "$run" == n ] ; then
-	echo "Process complated, now you can define your app parameters from ./django-starter/config.txt and then run 'bash ./django-starter/script/app.sh'"
+	echo "Process complated, now you can define your app parameters from ./django-starter/config.txt and then run 'bash ./django-starter/script/deploy.sh'"
 exit
 else
 	rm -rfv config.txt
