@@ -228,8 +228,10 @@ function create_project {
     source bin/activate
     python --version
 
-    if [ -d ${DJANGO_PATH} ]; then
-      exit $ERROR_STATUS
+    if [ ! -d ${APP_PATH}/logs/ ]; then
+			# Create log folder for logs
+	    mkdir -p $APP_PATH/logs/
+	    touch $APP_PATH/logs/gunicorn_supervisor.log
     fi
 
     echo "----- Venv: Install PIP..."
@@ -252,9 +254,6 @@ function create_project {
       django-admin startproject $APP_NAME
     fi
 
-    # Create log folder for logs
-    mkdir -p $APP_PATH/logs/
-    touch $APP_PATH/logs/gunicorn_supervisor.log
     # -------[script ends]-------
 EOF
 }
