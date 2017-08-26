@@ -6,6 +6,7 @@ set -e
 # DEFAULT VARIABLES
 VERSION="1.1"
 ERROR_STATUS=0
+UBUNTU_VERSION=$(lsb_release -r -s)
 CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Get config
@@ -82,15 +83,24 @@ function install_banner {
 # Update & Upgrade
 function update {
     echo "----- Provision: System Update & Upgrade..."
-    sudo aptitude -y update
-    sudo aptitude -y upgrade
+    if [[ $UBUNTU_VERSION == *16* ]]; then
+        sudo apt-get -y update
+        sudo apt-get -y upgrade
+    else
+        sudo aptitude -y update
+        sudo aptitude -y upgrade
+    fi
 }
 
 # ------------------------
 # Install Requirements
 function install_requirements {
     echo "----- Provision: Installing SUDO Requirements..."
-    sudo aptitude install -y postgresql postgresql-contrib libpq-dev python-dev supervisor nginx git python3-pip
+    if [[ $UBUNTU_VERSION == *16* ]]; then
+        sudo apt-get install -y postgresql postgresql-contrib libpq-dev python-dev supervisor nginx git python3-pip
+    else
+        sudo aptitude install -y postgresql postgresql-contrib libpq-dev python-dev supervisor nginx git python3-pip
+    fi
 }
 
 
@@ -98,9 +108,16 @@ function install_requirements {
 # Install Requirements
 function install_venv {
   # Note: in the new version of the Ubuntu pyvenv not preinstalled
-  if ! pyvenv_3="$(type -p pyvenv-3.4)" || [ -z "$pyvenv_3" ]; then
-    echo "----- Requirements: install pyvenv-3.4"
-    sudo apt-get install python3.4-venv # http://askubuntu.com/a/528625, http://stackoverflow.com/a/7522866/968751
+  if [[ $UBUNTU_VERSION == *16* ]]; then
+      if ! pyvenv_3="$(type -p pyvenv-3.5)" || [ -z "$pyvenv_3" ]; then
+        echo "----- Requirements: install pyvenv-3.5"
+        sudo apt-get install python3.5-venv # http://askubuntu.com/a/528625, http://stackoverflow.com/a/7522866/968751
+      fi
+  else
+      if ! pyvenv_3="$(type -p pyvenv-3.4)" || [ -z "$pyvenv_3" ]; then
+        echo "----- Requirements: install pyvenv-3.4"
+        sudo apt-get install python3.4-venv # http://askubuntu.com/a/528625, http://stackoverflow.com/a/7522866/968751
+      fi
   fi
 }
 
@@ -219,8 +236,11 @@ function create_project {
     if [ "$prj_exists" == y ] ; then
       git clone $git_repo .
     fi
-
-    pyvenv-3.4 --without-pip . # because of Ubuntu 14.04 PIP3 issue we create venv without pip
+    if [[ $UBUNTU_VERSION == *16* ]]; then
+        pyvenv-3.5 --without-pip . # because of Ubuntu 16.04 PIP3 issue we create venv without pip
+    else
+        pyvenv-3.4 --without-pip . # because of Ubuntu 14.04 PIP3 issue we create venv without pip
+    fi
     if [ ! $? -eq 0 ]; then
         # if pyvenv-3.4 fails then try python3 venv
         python3 -m venv --without-pip .
